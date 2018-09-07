@@ -6621,7 +6621,7 @@ find_busiest_group(struct lb_env *env, int *balance)
 force_balance:
 	/* Looks like there is an imbalance. Compute it */
 	calculate_imbalance(env, &sds);
-	return sds.busiest;
+	return env->imbalance ? sds.busiest : NULL;
 
 out_balanced:
 ret:
