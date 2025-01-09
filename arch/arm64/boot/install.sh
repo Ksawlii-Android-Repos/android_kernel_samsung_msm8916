@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# arch/arm64/boot/install.sh
+# arch/arm/boot/install.sh
 #
 # This file is subject to the terms and conditions of the GNU General Public
 # License.  See the file "COPYING" in the main directory of this archive
@@ -11,7 +11,7 @@
 # Adapted from code in arch/i386/boot/Makefile by H. Peter Anvin
 # Adapted from code in arch/i386/boot/install.sh by Russell King
 #
-# "make install" script for the AArch64 Linux port
+# "make install" script for arm architecture
 #
 # Arguments:
 #   $1 - kernel version
@@ -24,7 +24,7 @@
 if [ -x ~/bin/${INSTALLKERNEL} ]; then exec ~/bin/${INSTALLKERNEL} "$@"; fi
 if [ -x /sbin/${INSTALLKERNEL} ]; then exec /sbin/${INSTALLKERNEL} "$@"; fi
 
-if [ "$(basename $2)" = "Image.gz" ]; then
+if [ "$(basename $2)" = "zImage" ]; then
 # Compressed install
   echo "Installing compressed kernel"
   base=vmlinuz
@@ -44,3 +44,9 @@ if [ -f $4/System.map-$1 ]; then
   mv $4/System.map-$1 $4/System.map-$1.old
 fi
 cp $3 $4/System.map-$1
+
+if [ -x /sbin/loadmap ]; then
+  /sbin/loadmap
+else
+  echo "You have to install it yourself"
+fi
